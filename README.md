@@ -22,18 +22,9 @@ WHEN I click the button to generate a password
 THEN I am presented with a series of prompts for password criteria
 WHEN prompted for password criteria
 THEN I select which criteria to include in the password
-
-<!-- for this, take the i < 5 and change it to i < x. then divide x by 3. we can limit it by running thru an if statment that sets it to 128 / 3 if its put any higher. Same for less than 8 / 3 (or we set them to return an error) -->
-
 WHEN prompted for the length of the password
 THEN I choose a length of at least 8 characters and no more than 128 characters
 WHEN asked for character types to include in the password
-
-<!-- for this, i could make a function for each else case to run. all three, just letters, letters and numbers, letters and special
-ok so going further on this, to get that info from a form, use a function that will return the ID of selected elements and place it into a switch function that compares each potential selection and runs its function. 
-
-Further questions: is there a more automated way of accomplishing this? if a list gets long, I'd have to add in many cases and slow down performance as a result-->
-
 THEN I confirm whether or not to include lowercase, uppercase, numeric, and/or special characters
 WHEN I answer each prompt
 THEN my input should be validated and at least one character type should be selected

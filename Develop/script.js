@@ -1,143 +1,77 @@
-// Assignment Code
-var generateBtn = document.querySelector("#generate");
+const alphabet =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const lowerCase = 'abcdefghijklmnopqrstuvwxyz';
+const numbers =  '1234567890';
+const special =  "!@#$%^&*_-+=";
+let password = '';
+let temp = '';
 
-// Write password to the #password input
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
+document.getElementById('generate').addEventListener('click',handleClick);
+
+function handleClick() {
+    temp = '';
+    password = '';
+    let len = prompt('How long would you like password to be (8-128)?');
+
+    if(len < 8 || len > 128) {
+        alert("Please choose a length between 8 and 128");
+        return
+    }
+    let lower = confirm('Would you like lowercase?');
+    let upper = confirm('Would you like uppercase?');
+    let num = confirm('Would you like numbers?');
+    let spec = confirm('Would you like special characters?');
+    
+    
+    
+
+    if(lower) {temp += lowerCase;}
+    if(upper) {temp += alphabet;}
+    if(num) {temp += numbers;}
+    if(spec) {temp += special;}
+
+    function loop() {
+
+        if(lower) {
+            password += lowerCase[Math.floor(Math.random()*lowerCase.length)]
+        } else {
+            password = '';
+        };
+
+        if(upper) {
+            password += alphabet[Math.floor(Math.random()*alphabet.length)]  
+        } else {
+            password = '';
+        };
+
+        if(num) {
+            password += numbers[Math.floor(Math.random()*numbers.length)]       
+        } else{
+            password = ';'
+        };
+        
+        if(spec) {
+            password += special[Math.floor(Math.random()*special.length)]
+        } else{
+            password = '';
+        };
+
+        for (let i = password.length; i < len; i++) {
+            password += temp[Math.floor(Math.random()*temp.length)]
+        };
+    }
+    loop();
+
+    function shuffleMe () {
+        let arr = password.split("");
+        for (i = len; i > 0; i--) {
+          let j = Math.floor(Math.random()*arr.length);
+          let temp = arr[i]
+          arr[i] = arr[j];
+          arr[j] = temp;
+        }
+        password = arr.join("");
+      }
+      shuffleMe();
+
+    document.getElementById('password').innerText = password;
 }
-
-// all char types
-function generatePasswordAll(length) {
-  const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const numbers = "0123456789";
-  const symbols = "!@#$%^&*_-+=";
-  let passwordStart = "";
-
-  for (let i = length / 3; i > 0; i--) {
-    passwordStart = passwordStart + 
-    alphabet[getRandomInt(alphabet.length)] + 
-    numbers[getRandomInt(numbers.length)] + 
-    symbols[getRandomInt(symbols.length)];
-  };
-  return passwordStart.slice(0, length);
-};
-
-// alphabet chars
-function generatePasswordAlpha(length) {
-  const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-  let passwordStart = "";
-
-  for (let i = length; i > 0; i--) {
-    passwordStart = passwordStart + 
-    alphabet[getRandomInt(alphabet.length)];
-  };
-  return passwordStart.slice(0, length);
-};
-
-// number and alphabet chars
-function generatePasswordNumbers(length) {
-  const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const numbers = "0123456789";
-  let passwordStart = "";
-
-  for (let i = length / 2; i > 0; i--) {
-    passwordStart = passwordStart + 
-    alphabet[getRandomInt(alphabet.length)] + 
-    numbers[getRandomInt(numbers.length)];
-  };
-  return passwordStart.slice(0, length);
-};
-
-// letters and special chars
-function generatePasswordSpecial(length) {
-  const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const symbols = "!@#$%^&*_-+=";
-  let passwordStart = "";
-
-  for (let i = length / 3; i > 0; i--) {
-    passwordStart = passwordStart + 
-    alphabet[getRandomInt(alphabet.length)] +  
-    symbols[getRandomInt(symbols.length)];
-  };
-  return passwordStart.slice(0, length);
-};
-
-// Shuffles final password result
-function shuffleMe (str) {
-  let arr = str.split("");
-  let len = arr.length;
-  for (i = len; i > 0; i--) {
-    let j = getRandomInt(len);
-    let temp = arr[i]
-    arr[i] = arr[j];
-    arr[j] = temp;
-  }
-  return arr.join("");
-}
-
-// checks for password recs based on selections
-// checks all (currently gives an error citing the .length as null)
-// function regCheck(str) {
-//   let regEx = /[\S]gi/;
-//   result = str.match(regEx);
-//   check1 = str.length;
-//   check2 = result.length;
-//   if (check1 !== check2) {
-//     writePassword();
-//   }
-// }
-
-
-
-function writePassword() {
-  // change the paramater of generatepasswordAll to change password length
-  var passwordFinal = shuffleMe(generatePasswordAll(10));
-  var passwordText = document.querySelector("#password");
-
-  passwordText.value = passwordFinal;
-
-}
-
-// Add event listener to generate button
-generateBtn.addEventListener("click", writePassword);
-
-
-// preference selector (from here down, all work is for the dropdown menu. This menu is currently incomplete)
-
-
-function selectOption() {
-  let selectElement = document.querySelector('#select');
-  let output = selectElement.options[selectElement.selectedIndex].value;
-  
-
-  if (output == "all") {
-    writePassword(generatePasswordAll(10))
-  } else if (output == "letters") {
-    writePassword(generatePasswordAlpha(10))
-  } else if (output == "special") {
-    writePassword(generatePasswordSpecial(10))
-  } else if (output == "numbers") {
-    writePassword(generatePasswordNumbers(10))
-  } else {
-    return "This isnt working";
-  }
-
-  }
-
-  // x will be output from selectoption: passswordCreate(selectOption)
-function passwordCreate(x) {
-  if (x == "all") {
-    return writePassword(generatePasswordAll(10))
-  } else if (x == "letters") {
-    return writePassword(generatePasswordAlpha(10))
-  } else if (x == "special") {
-    return writePassword(generatePasswordSpecial(10))
-  } else if (x == "numbers") {
-    return writePassword(generatePasswordNumbers(10))
-  } else {
-    return "This isnt working";
-  }
-};
-
-
